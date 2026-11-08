@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#243dc1">
+  <meta name="color-scheme" content="light">
+  <title>ZentBuy spreadsheet – guide til fund, størrelser og QC</title>
+  <meta name="description" content="Brug ZentBuy spreadsheet som udgangspunkt for bedre produktvalg. Få overblik over kategorier, størrelser, QC-billeder og samlet pris før køb.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="da_DK">
+  <meta property="og:title" content="ZentBuy spreadsheet – fra inspiration til et gennemtænkt valg">
+  <meta property="og:description" content="En uafhængig dansk guide til produktfund, størrelser og billedkontrol. Udforsk kategorier hos HipobuyFind.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ZentBuy spreadsheet – dansk købsguide">
+  <meta name="twitter:description" content="Find din kategori, sammenlign mål, og kontrollér oplysningerne før køb.">
+  <link rel="preconnect" href="https://static.nike.com">
+  <style>
+    :root {
+      --paper: #f5f2e9;
+      --white: #fffef9;
+      --ink: #20231e;
+      --muted: #5a5e55;
+      --blue: #243dc1;
+      --line: #d8d8cc;
+      --yellow: #e9f18b;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-underline-offset: 4px; }
+    a:focus-visible, summary:focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 5px;
+    }
+    a:hover { text-decoration-thickness: 2px; }
+    img { display: block; width: 100%; height: auto; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { line-height: 1.12; letter-spacing: -.035em; }
+    h1 { font-size: clamp(2.7rem, 6.7vw, 5.9rem); margin-bottom: 24px; }
+    h2 { font-size: clamp(1.85rem, 3.7vw, 3.1rem); margin-bottom: 22px; }
+    h3 { font-size: 1.3rem; letter-spacing: -.02em; }
+    p { margin-bottom: 18px; }
+    .wrap { width: min(1180px, calc(100% - 40px)); margin-inline: auto; }
+    .eyebrow {
+      font-size: .75rem;
+      font-weight: 750;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding-block: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    .logo {
+      font-size: clamp(1rem, 3.8vw, 1.35rem);
+      font-weight: 850;
+      letter-spacing: -.045em;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .masthead-note { color: var(--muted); font-size: .82rem; text-align: right; }
+    .category-section { padding-block: 26px 32px; }
+    .category-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .category-heading h2 {
+      font-size: 1rem;
+      letter-spacing: 0;
+      margin: 0;
+    }
+    .category-heading span { font-size: .78rem; color: var(--muted); }
+    .categories { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .categories a {
+      min-height: 57px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      font-size: .86rem;
+      font-weight: 650;
+      text-decoration: none;
+    }
+    .categories a::after { content: "↗"; color: var(--blue); flex: none; }
+    .categories a:hover { background: var(--yellow); border-color: var(--ink); }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.13fr 1fr;
+      background: var(--blue);
+      border-radius: var(--radius);
+      overflow: hidden;
+      color: #fff;
+    }
+    .hero-copy { padding: clamp(28px, 4.6vw, 58px); align-self: center; }
+    .hero-copy .eyebrow { color: #dce2ff; }
+    .hero-copy > p:not(.eyebrow) { max-width: 48ch; color: #edf0ff; }
+    .hero-copy h1 span { display: block; color: var(--yellow); }
+    .button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      min-height: 50px;
+      padding: 12px 21px;
+      background: var(--yellow);
+      border: 1px solid transparent;
+      color: var(--ink);
+      border-radius: 6px;
+      font-weight: 750;
+      text-decoration: none;
+    }
+    .button:hover { background: #f5ffad; }
+    .hero .button:focus-visible { outline-color: white; }
+    .hero-small { display: block; font-size: .76rem; color: #dce2ff; margin-top: 17px; }
+    .hero figure {
+      margin: 0;
+      background: #ebece8;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: var(--ink);
+      min-width: 0;
+    }
+    .hero img { aspect-ratio: 1 / 1; object-fit: contain; padding: 28px; }
+    figcaption { font-size: .75rem; color: var(--muted); padding: 13px 20px; }
+    .hero figcaption { border-top: 1px solid #d3d5cf; }
+    .intro-strip {
+      display: grid;
+      grid-template-columns: .75fr 2fr;
+      gap: 32px;
+      padding: 34px 0;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 64px;
+    }
+    .intro-strip strong { color: var(--blue); font-size: .9rem; }
+    .intro-strip p { margin: 0; font-size: 1.03rem; max-width: 80ch; }
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 30px;
+      margin-bottom: 27px;
+    }
+    .section-heading h2 { margin-bottom: 0; }
+    .section-heading > p { max-width: 38ch; color: var(--muted); margin: 0; }
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .feature {
+      padding: 28px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+    .feature-number {
+      display: inline-block;
+      color: var(--blue);
+      font-size: .82rem;
+      margin-bottom: 32px;
+      font-weight: 800;
+    }
+    .feature p { color: var(--muted); font-size: .94rem; }
+    .feature p:last-child { margin-bottom: 0; }
+    .section { margin-bottom: 72px; }
+    .editorial {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+    .editorial figure {
+      margin: 0;
+      background: #e6e8df;
+      border-radius: 12px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-content: start;
+    }
+    .editorial figure img {
+      aspect-ratio: 4 / 5;
+      height: 100%;
+      object-fit: contain;
+      padding: 20px;
+    }
+    .editorial figcaption {
+      grid-column: 1 / -1;
+      border-top: 1px solid #d0d3c7;
+    }
+    .editorial-copy {
+      padding: clamp(25px, 4vw, 43px);
+      background: var(--yellow);
+      border-radius: 12px;
+    }
+    .editorial-copy h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); }
+    .editorial-copy p { max-width: 54ch; }
+    .text-link { font-weight: 750; color: var(--blue); }
+    .guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .guide {
+      border-top: 3px solid var(--ink);
+      padding: 28px 0 4px;
+    }
+    .guide .eyebrow { color: var(--blue); }
+    .guide h3 { font-size: 1.65rem; }
+    .guide p, .guide li { color: var(--muted); }
+    ul, ol { padding-left: 22px; }
+    li { margin-bottom: 10px; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+    table { border-collapse: collapse; width: 100%; background: var(--white); font-size: .92rem; }
+    caption { text-align: left; padding: 20px; font-weight: 750; background: #e9eadd; }
+    th, td { padding: 17px 20px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    thead th { font-size: .8rem; color: var(--muted); }
+    tbody th { width: 23%; }
+    tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+    .faq-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 55px; }
+    .faq-intro p { color: var(--muted); }
+    details { border-top: 1px solid var(--line); }
+    details:last-child { border-bottom: 1px solid var(--line); }
+    summary {
+      padding: 21px 32px 21px 0;
+      font-weight: 700;
+      cursor: pointer;
+      position: relative;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; position: absolute; right: 3px; color: var(--blue); font-size: 1.2rem; }
+    details[open] summary::after { content: "−"; }
+    details p { color: var(--muted); padding-right: 22px; font-size: .94rem; }
+    .topic-box { border-top: 1px solid var(--line); padding-top: 28px; }
+    .topic-box > p { color: var(--muted); max-width: 75ch; }
+    .topics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .topics article { padding: 22px; background: #eaece2; border-radius: 10px; }
+    .topics h3 { font-size: 1.05rem; line-height: 1.35; letter-spacing: -.01em; }
+    .topics p { font-size: .85rem; color: var(--muted); margin: 0; }
+    .closing {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+      padding: 35px;
+      background: var(--ink);
+      color: white;
+      border-radius: 12px;
+      margin-bottom: 38px;
+    }
+    .closing h2 { font-size: 1.7rem; margin-bottom: 8px; }
+    .closing p { margin: 0; color: #d4d7ce; font-size: .9rem; }
+    .closing .button { flex-shrink: 0; }
+    footer { padding-block: 24px 34px; border-top: 1px solid var(--line); }
+    footer p { font-size: .78rem; color: var(--muted); max-width: 100ch; }
+    footer .logo { display: inline-block; margin-bottom: 15px; color: var(--ink); }
+    @media (min-width: 850px) {
+      .deferred { content-visibility: auto; contain-intrinsic-size: auto 600px; }
+    }
+    @media (max-width: 900px) {
+      .categories { grid-template-columns: repeat(3, 1fr); }
+      .hero { grid-template-columns: 1fr 1fr; }
+      .hero-copy { padding: 30px; }
+      .features { gap: 10px; }
+      .feature { padding: 22px; }
+      .faq-layout { gap: 30px; }
+    }
+    @media (max-width: 650px) {
+      .wrap { width: calc(100% - 28px); }
+      .masthead { padding-block: 18px; }
+      .masthead-note { max-width: 110px; font-size: .7rem; }
+      .category-heading { align-items: flex-start; }
+      .category-heading span { text-align: right; max-width: 140px; }
+      .categories { grid-template-columns: repeat(2, 1fr); }
+      .categories a { padding: 11px; font-size: .78rem; }
+      .hero, .editorial, .guide-grid, .faq-layout { grid-template-columns: 1fr; }
+      .hero-copy { padding: 31px 25px; }
+      .hero h1 { font-size: clamp(2.8rem, 12vw, 4rem); }
+      .hero figure img { aspect-ratio: 5 / 4; max-height: 330px; }
+      .intro-strip { grid-template-columns: 1fr; gap: 12px; margin-bottom: 45px; padding-block: 25px; }
+      .section-heading { display: block; }
+      .section-heading > p { margin-top: 16px; }
+      .features, .topics { grid-template-columns: 1fr; }
+      .feature-number { margin-bottom: 17px; }
+      .section { margin-bottom: 48px; }
+      .closing { align-items: flex-start; flex-direction: column; padding: 25px; }
+      th, td { padding: 14px 12px; }
+      .table-wrap table { min-width: 550px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "name": "ZentBuy spreadsheet – guide til fund, størrelser og QC",
+        "description": "En uafhængig dansk introduktion til produktfund, valg af størrelse, billedkontrol og samlet købspris.",
+        "inLanguage": "da",
+        "about": {
+          "@type": "Thing",
+          "name": "ZentBuy spreadsheet"
+        }
+      },
+      {
+        "@type": "Article",
+        "headline": "Fra produktbillede til et mere sikkert valg",
+        "description": "Kontrollér model og variant, sammenlign produktmål, og læs fragt- og returvilkår før betaling.",
+        "inLanguage": "da",
+        "articleSection": "Købsguide",
+        "author": {
+          "@type": "Organization",
+          "name": "HipobuyFind",
+          "url": "https://www.hipobuyfind.com"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "inLanguage": "da",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Hvad er en ZentBuy spreadsheet?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Udtrykket bruges om en oversigt over produktfund og links til brug ved shopping gennem ZentBuy. Denne side er en dansk guide, ikke et live-regneark eller ZentBuys officielle hjemmeside."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Hvor fører sidens links hen?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Kategorilinks åbner de angivne kategorier på hipobuyfind.com. Alle andre klikbare links fører til https://www.hipobuyfind.com. De åbner ikke automatisk et produkt hos ZentBuy."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Hvordan vælger jeg den rigtige størrelse?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sammenlign sælgerens mål i centimeter med et tilsvarende stykke tøj, du allerede bruger. For sko skal du kontrollere den konkrete models størrelsesguide og sammenholde den med din fodlængde."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Hvad skal jeg se efter på QC-billeder?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Kontrollér model, farve, størrelse, syninger og synlige skader. Bed om nærbilleder eller mål, hvis noget er uklart. QC-billeder kan ikke i sig selv dokumentere ægthed eller langtidsholdbarhed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kan jeg se den endelige pris her?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nej. Kontrollér varepris, eventuel indenrigsfragt, international fragt, betalingsomkostninger og relevante importafgifter hos den valgte udbyder. Priser og vilkår skal bekræftes før betaling."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Er siden tilknyttet ZentBuy eller de viste mærker?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nej. Dette er en uafhængig guide uden officiel tilknytning til ZentBuy, Nike, Louis Vuitton, Gucci, Hermès eller Dior. Billederne er stilreferencer og dokumenterer ikke lagerstatus eller ægthed hos en tredjepart."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+<link rel="canonical" href="https://kakobuyfinds.github.io/zxybb/">
+</head>
+<body>
+  <!--
+    Filnavn: index.html.
+    Research: Søgeresultater og ti relevante sider blev gennemgået som
+    tematisk grundlag. En direkte Google-førsteside med ti forskellige
+    domæner kunne ikke verificeres. Én af siderne returnerede 403.
+    Ingen konkurrenters priser, rabatter, produktantal eller anmeldelser
+    er overført til denne side.
+
+    Tematisk research:
+    https://zentbuy-spreadsheets.com/
+    https://zentbuyspreadsheet.com/zentbuy_spreadsheet.html
+    https://zentbuyspreadsheet.com/about.html
+    https://zentbuyspreadsheet.com/
+    https://repsheet.net/spreadsheet/zentbuy
+    https://www.ssfinds.com/zentbuy-spreadsheet
+    https://zentbuyspreadsheet.com/faq.html
+    https://zentbuyspreadsheet.com/guide.html
+    https://mixfittio.com/en/spreadsheet/zentbuy
+    https://w2cspreadsheet.com/agents/zentbuy
+
+    Sekundære søgetemaer:
+    ZentBuy finds; ZentBuy links; ZentBuy QC; ZentBuy guide.
+
+    Canonical og og:url er bevidst udeladt, da sidens endelige
+    publiceringsadresse ikke er oplyst.
+  -->
+
+  <header class="wrap masthead">
+    <a class="logo" href="https://www.hipobuyfind.com" aria-label="Besøg hipobuyfind.com">hipobuyfind.com</a>
+    <span class="masthead-note">Dansk guide<br>Fund med omtanke</span>
+  </header>
+
+  <main class="wrap">
+    <section class="category-section" aria-labelledby="category-title">
+      <div class="category-heading">
+        <h2 id="category-title">Start med din kategori</h2>
+        <span>Kategorierne åbner hos HipobuyFind ↗</span>
+      </div>
+      <nav class="categories" aria-label="Produktkategorier">
+        <a href="https://hipobuyfind.com/category-911-Shoes.html" lang="en">Shoes</a>
+        <a href="https://hipobuyfind.com/category-912-Hoodies%2FSweaters.html" lang="en">Hoodies/Sweaters</a>
+        <a href="https://hipobuyfind.com/category-913-T-Shirts.html" lang="en">T-Shirts</a>
+        <a href="https://hipobuyfind.com/category-914-Jackets.html" lang="en">Jackets</a>
+        <a href="https://hipobuyfind.com/category-915-Pants%2FShorts.html" lang="en">Pants/Shorts</a>
+        <a href="https://hipobuyfind.com/category-916-Headwear.html" lang="en">Headwear</a>
+        <a href="https://hipobuyfind.com/category-917-Sets.html" lang="en">Sets</a>
+        <a href="https://hipobuyfind.com/category-918-underwear%2Funderpants.html" lang="en">Underwear/underpants</a>
+        <a href="https://hipobuyfind.com/category-919-Jersey.html" lang="en">Jersey</a>
+        <a href="https://hipobuyfind.com/category-920-Accessories.html" lang="en">Accessories</a>
+      </nav>
+    </section>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Et roligere overblik over dine næste fund</p>
+        <h1 id="hero-title">ZentBuy spreadsheet<span>Se detaljen.<br>Vælg med omtanke.</span></h1>
+        <p>Et flot billede er kun begyndelsen. Brug denne danske guide til at vælge kategori, sammenligne mål og stille de rigtige spørgsmål, før du køber.</p>
+        <a class="button" href="https://www.hipobuyfind.com">Udforsk HipobuyFind <span aria-hidden="true">↗</span></a>
+        <small class="hero-small">Uafhængig guide · Links fører til HipobuyFind</small>
+      </div>
+      <figure>
+        <img
+          src="https://static.nike.com/a/images/t_PDP_144_v1/f_auto%2Cq_auto%3Aeco%2Cu_9ddf04c7-2a9a-4d76-add1-d15af8f0263d%2Cc_scale%2Cfl_relative%2Cw_1.0%2Ch_1.0%2Cfl_layer_apply/e6da41fa-1be4-4ce5-b89c-22be4f1f02d4/AIR%2BFORCE%2B1%2B%2707.png"
+          alt="Hvid Nike Air Force 1 '07 med hvid sål og perforeret tåparti"
+          width="720"
+          height="720"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async">
+        <figcaption>Stilreference: Nike Air Force 1 ’07. Billedet er ikke en lager- eller produktgaranti hos HipobuyFind.</figcaption>
+      </figure>
+    </section>
+
+    <aside class="intro-strip" aria-label="Kort forklaring">
+      <strong>Hvad betyder søgeordet?</strong>
+      <p>En <b>ZentBuy spreadsheet</b> er en betegnelse for en oversigt over produktfund og links til brug ved shopping gennem ZentBuy. Her får du en redaktionel købsguide og adgang til HipobuyFinds kategorier. Siden indeholder ikke et live-regneark, og knapperne åbner ikke ZentBuy.</p>
+    </aside>
+
+    <section class="section" aria-labelledby="three-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Tre valg før indkøbskurven</p>
+          <h2 id="three-title">Fra inspiration<br>til en brugbar shortlist.</h2>
+        </div>
+        <p>Gem færre muligheder, men bedre oplysninger. En tydelig variant og et brugbart mål er mere værd end et langt produktnavn.</p>
+      </div>
+      <div class="features">
+        <article class="feature">
+          <span class="feature-number">01 / RETNING</span>
+          <h3>Vælg én kategori først</h3>
+          <p>Begynd med det, du mangler: sko, en varm trøje eller en enkel accessory. Når du leder efter ZentBuy finds, gør en konkret kategori det lettere at sammenligne anvendelige alternativer.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-number">02 / PASFORM</span>
+          <h3>Sammenlign i centimeter</h3>
+          <p>Et størrelsesbogstav fortæller ikke hele historien. Notér brystvidde, længde og ærmemål for tøj. For sko skal du læse den enkelte models størrelsesguide.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-number">03 / DOKUMENTATION</span>
+          <h3>Kontrollér før betaling</h3>
+          <p>Ved gennemgang af ZentBuy links bør du bekræfte model, sælger og den valgte variant. Kontrollér derefter den aktuelle pris og de relevante leverings- og returvilkår hos udbyderen.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section editorial deferred" aria-labelledby="style-title">
+      <figure>
+        <img
+          src="https://content.stylitics.com/images/items/17793710"
+          alt="Nike Sportswear Club Fleece-trøje vist som reference til lag-på-lag-beklædning"
+          width="440"
+          height="550"
+          loading="lazy"
+          decoding="async">
+        <img
+          src="https://content.stylitics.com/images/items/18998764"
+          alt="Nike Terra Futura365-strikhue med kort opsmøg"
+          width="440"
+          height="550"
+          loading="lazy"
+          decoding="async">
+        <figcaption>Nike-trøje og strikhue som visuelle referencer. Kontrollér altid materiale, farve og variant i den konkrete produktbeskrivelse.</figcaption>
+      </figure>
+      <div class="editorial-copy">
+        <p class="eyebrow">Stilnotat / hverdagsgarderoben</p>
+        <h2>Byg et sæt omkring det, du allerede bruger.</h2>
+        <p>Start med en neutral base, og lad én detalje skille sig ud: skoens silhuet, en trøjes struktur eller en hue med et enkelt mærke.</p>
+        <p>Hvis du sammenligner Nike, Louis Vuitton, Gucci, Hermès eller Dior, så skeln mellem stilinspiration og dokumenteret produktinformation. Et logo eller et produktfoto er ikke i sig selv bevis for ægthed.</p>
+        <p>Til hovedbeklædning er omkreds og materiale centrale. Ved smykker bør du undersøge metaltype, belægning, mål og oplysninger om hudkontakt.</p>
+        <a class="text-link" href="https://www.hipobuyfind.com">Find inspiration hos HipobuyFind ↗</a>
+      </div>
+    </section>
+
+    <section class="section deferred" aria-labelledby="guide-title">
+      <p class="eyebrow">ZentBuy guide / praktiske artikler</p>
+      <h2 id="guide-title">Fra produktbillede<br>til et mere sikkert valg.</h2>
+      <div class="guide-grid">
+        <article class="guide">
+          <p class="eyebrow">Artikel 01 · Størrelse</p>
+          <h3>Mål dit eget tøj, før du vælger nyt</h3>
+          <p>Læg en trøje, der passer dig, fladt på et bord. Mål bredden under armhulerne, længden fra skulderen og ærmet efter samme metode som sælgerens måleskema. Kontrollér, om tabellen angiver flade mål eller kropsmål.</p>
+          <p>Ved en hoodie er plads til et ekstra lag relevant. Ved en T-shirt bør du også sammenligne skulderbredde. Til bukser skal du se på talje, inderben og lårvidde; et enkelt taljemål beskriver ikke hele pasformen.</p>
+          <p>Til sko skal du måle begge fødder og kontrollere den konkrete models vejledning. Brug ikke én generel EU-størrelse som facit på tværs af alle modeller.</p>
+        </article>
+        <article class="guide">
+          <p class="eyebrow">Artikel 02 · Billedkontrol</p>
+          <h3>Brug QC til at afklare det konkrete</h3>
+          <p>QC betyder kvalitetskontrol. Når du gennemgår ZentBuy QC eller andre kontrolbilleder, skal du først se efter den rigtige model, farve og størrelse. Se derefter på sømme, lukninger, såler og synlige skader.</p>
+          <p>Et oversigtsfoto kan skjule små detaljer. Bed om et nærbillede af det område, du er i tvivl om, eller et målebillede, hvis pasformen er afgørende. Belysning kan påvirke farvegengivelsen.</p>
+          <p>Billeder kan hjælpe med at opdage synlige fejl. De kan ikke alene dokumentere ægthed, materialesammensætning eller hvordan en vare holder efter længere tids brug.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section deferred" aria-labelledby="compare-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Din sammenligningsramme</p>
+          <h2 id="compare-title">Det skal du undersøge.</h2>
+        </div>
+        <p>Brug samme kriterier til alle kandidater. Så bliver forskellene lettere at se.</p>
+      </div>
+      <div class="table-wrap" role="region" aria-label="Tjekliste til produktvalg" tabindex="0">
+        <table>
+          <caption>Et enkelt beslutningsskema til din egen produktliste</caption>
+          <thead>
+            <tr>
+              <th scope="col">Kategori</th>
+              <th scope="col">Kontrollér</th>
+              <th scope="col">Spørg, hvis det mangler</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Sko</th>
+              <td>Modelkode, fodlængde, størrelsestabel og sålens udformning.</td>
+              <td>Gælder målene netop denne model og variant?</td>
+            </tr>
+            <tr>
+              <th scope="row">Trøjer og T-shirts</th>
+              <td>Brystvidde, længde, skuldre, materiale og vaskeanvisning.</td>
+              <td>Er målene taget fladt, og er stoffet elastisk?</td>
+            </tr>
+            <tr>
+              <th scope="row">Jakker og sæt</th>
+              <td>Lagplads, lukninger og separate mål for overdel og underdel.</td>
+              <td>Har begge dele samme størrelse, og hvad følger med?</td>
+            </tr>
+            <tr>
+              <th scope="row">Bukser og shorts</th>
+              <td>Talje, inderben, lårvidde og eventuel justering.</td>
+              <td>Er taljemålet angivet afslappet eller udstrakt?</td>
+            </tr>
+            <tr>
+              <th scope="row">Huer og accessories</th>
+              <td>Omkreds, justerbarhed, materiale, vægt og dimensioner.</td>
+              <td>Hvilke materialer er i kontakt med huden?</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section deferred" aria-labelledby="cost-title">
+      <div class="guide-grid">
+        <article class="guide">
+          <p class="eyebrow">Artikel 03 · Samlet pris</p>
+          <h2 id="cost-title">Se på hele regnestykket.</h2>
+          <p>En lav varepris er ikke nødvendigvis en lav slutpris. Ved levering til Danmark bør du undersøge varepris, eventuel indenrigsfragt, international fragt, betalingsomkostninger og relevante importafgifter.</p>
+          <p>Fragt kan afhænge af både vægt, pakkens størrelse og den valgte rute. Brug den aktuelle beregning hos din udbyder. Denne guide angiver hverken faste fragtpriser, rabatkoder eller garanterede leveringstider.</p>
+        </article>
+        <article class="guide">
+          <p class="eyebrow">Artikel 04 · Før du afslutter</p>
+          <h3>Gem oplysninger, der kan bruges igen</h3>
+          <ol>
+            <li>Notér produktnavn, kilde og valgt farve eller model.</li>
+            <li>Gem størrelsestabellen og dine vigtigste sammenligningsmål.</li>
+            <li>Læs returfrist, betingelser og eventuelle returomkostninger.</li>
+            <li>Kontrollér den endelige betalingsoversigt før godkendelse.</li>
+          </ol>
+          <p>Hvis et link er dødt, så søg efter modelnavnet igen, og sammenlign oplysningerne. Et lignende billede betyder ikke nødvendigvis samme vare eller sælger.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section faq-layout deferred" aria-labelledby="faq-title">
+      <div class="faq-intro">
+        <p class="eyebrow">Korte svar / FAQ</p>
+        <h2 id="faq-title">Det vigtigste,<br>før du går videre.</h2>
+        <p>Direkte svar om regneark, links, pasform og kontrol. Sidens kategorier og øvrige links fører til HipobuyFind.</p>
+      </div>
+      <div>
+        <details open>
+          <summary>Hvad er en ZentBuy spreadsheet?</summary>
+          <p>Udtrykket bruges om en oversigt over produktfund og links til brug ved shopping gennem ZentBuy. Denne side er en dansk guide, ikke et live-regneark eller ZentBuys officielle hjemmeside.</p>
+        </details>
+        <details>
+          <summary>Hvor fører sidens links hen?</summary>
+          <p>Kategorilinks åbner de angivne kategorier på hipobuyfind.com. Alle andre klikbare links fører til https://www.hipobuyfind.com. De åbner ikke automatisk et produkt hos ZentBuy.</p>
+        </details>
+        <details>
+          <summary>Hvordan vælger jeg den rigtige størrelse?</summary>
+          <p>Sammenlign sælgerens mål i centimeter med et tilsvarende stykke tøj, du allerede bruger. For sko skal du kontrollere den konkrete models størrelsesguide og sammenholde den med din fodlængde.</p>
+        </details>
+        <details>
+          <summary>Hvad skal jeg se efter på QC-billeder?</summary>
+          <p>Kontrollér model, farve, størrelse, syninger og synlige skader. Bed om nærbilleder eller mål, hvis noget er uklart. QC-billeder kan ikke i sig selv dokumentere ægthed eller langtidsholdbarhed.</p>
+        </details>
+        <details>
+          <summary>Kan jeg se den endelige pris her?</summary>
+          <p>Nej. Kontrollér varepris, eventuel indenrigsfragt, international fragt, betalingsomkostninger og relevante importafgifter hos den valgte udbyder. Priser og vilkår skal bekræftes før betaling.</p>
+        </details>
+        <details>
+          <summary>Er siden tilknyttet ZentBuy eller de viste mærker?</summary>
+          <p>Nej. Dette er en uafhængig guide uden officiel tilknytning til ZentBuy, Nike, Louis Vuitton, Gucci, Hermès eller Dior. Billederne er stilreferencer og dokumenterer ikke lagerstatus eller ægthed hos en tredjepart.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section topic-box deferred" aria-labelledby="topics-title">
+      <p class="eyebrow">Fordybelse efter behov</p>
+      <h2 id="topics-title">Seks emner til bedre produktvalg.</h2>
+      <p>Brug disse fokuspunkter, når du organiserer dine fund. De hjælper dig med at undersøge konkrete forskelle frem for blot at samle flere links.</p>
+      <div class="topics">
+        <article>
+          <h3>ZentBuy spreadsheet til begyndere</h3>
+          <p>Start med en produktoversigt, forstå kategorierne, kontrollér kildelinks, og gem relevante produktvarianter.</p>
+        </article>
+        <article>
+          <h3>Sko og størrelsesvalg</h3>
+          <p>Sammenlign sneakers efter fodlængde, læs modellens størrelsestabel, undersøg såldetaljer, og kontrollér farvevarianten.</p>
+        </article>
+        <article>
+          <h3>Tøj med den ønskede pasform</h3>
+          <p>Vurdér hoodies efter brystmål, T-shirts efter skulderbredde, jakker efter lagplads og bukser efter inderbenslængde.</p>
+        </article>
+        <article>
+          <h3>QC-billeder med et formål</h3>
+          <p>Kontrollér syninger på nærbilleder, sammenlign mærkater, bed om målebilleder, og undersøg synlige materialefejl.</p>
+        </article>
+        <article>
+          <h3>Accessories og små detaljer</h3>
+          <p>Vælg hovedbeklædning efter omkreds, undersøg smykkers materialer, sammenlign remmål, og kontrollér lukningernes udformning.</p>
+        </article>
+        <article>
+          <h3>Budget og levering til Danmark</h3>
+          <p>Beregn samlet pris, undersøg pakkens volumenvægt, læs returvilkår, og bekræft importomkostninger før betaling.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="closing" aria-labelledby="closing-title">
+      <div>
+        <h2 id="closing-title">Find din kategori. Tag detaljerne med.</h2>
+        <p>Fortsæt til HipobuyFind, og sammenlign de konkrete produktbeskrivelser.</p>
+      </div>
+      <a class="button" href="https://www.hipobuyfind.com">Besøg HipobuyFind <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <a class="logo" href="https://www.hipobuyfind.com">hipobuyfind.com</a>
+    <p>Uafhængig dansk guide om ZentBuy spreadsheet og produktvalg. Ingen officiel forbindelse til ZentBuy eller de omtalte mærker. Mærkenavne tilhører deres respektive ejere. Referencebilleder er ikke en bekræftelse af tilgængelighed, ægthed eller et samarbejde.</p>
+    <p>Kontrollér altid produktets oplysninger, aktuelle pris og vilkår på destinationssiden. Denne side modtager ikke betaling og viser ikke en live-lagerbeholdning.</p>
+  </footer>
+</body>
+</html>
